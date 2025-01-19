@@ -20,7 +20,7 @@ class ContactProperties(BaseModel):
     taal: str | None = None
     firstPurchaseDate: datetime.datetime | None = None
     freeField1: int | None = None
-    firstName: str
+    firstName: str | None = None
     customerType: str | None = None
     street: str | None = None
     permissions: list
