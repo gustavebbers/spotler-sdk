@@ -7,22 +7,22 @@ from pydantic import BaseModel
 class ContactProperties(BaseModel):
     lastPurchaseDate: datetime.datetime | None = None
     birthday: datetime.datetime | None = None
-    country: str
-    lastName: str
-    city: str
-    initials: str
+    country: str | None = None
+    lastName: str | None = None
+    city: str | None = None
+    initials: str | None = None
     postalCode: str | None = None
     houseNumber: str | None = None
-    organisation: str
+    organisation: str | None = None
     profileFields: list
-    infix: str
+    infix: str | None = None
     profileField1: str | None = None
-    taal: str
+    taal: str | None = None
     firstPurchaseDate: datetime.datetime | None = None
     freeField1: int | None = None
     firstName: str
     customerType: str | None = None
-    street: str
+    street: str | None = None
     permissions: list
     email: str
 
