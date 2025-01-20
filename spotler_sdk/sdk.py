@@ -7,7 +7,7 @@ import requests
 from loguru import logger
 from requests_oauthlib import OAuth1Session
 
-from spotler_sdk.models import Contact
+from spotler_sdk.models import Contact, Order, OrderRequest
 
 HTTP_TIMEOUT_SECONDS = 10
 
@@ -90,5 +90,76 @@ class SDK:
             elif err.response.status_code == 404:
                 logger.debug(f"Contact: {email} not updated with error: {r.json()['errorType']}")
                 raise ValueError(r.json()["errorType"]) from err
+            else:
+                raise
+
+    def create_order(self, order: Order):
+        order_request = OrderRequest(order=order)
+        try:
+            r = self.session.post(
+                self.api_url + "order",
+                headers={"Accept": "application/json", "Content-Type": "application/json"},
+                timeout=HTTP_TIMEOUT_SECONDS,
+                data=order_request.model_dump_json(),
+            )
+
+            r.raise_for_status()
+        except requests.exceptions.ConnectionError as err:
+            raise ValueError("Connection error, check `SpotlerSDK.api_url` is set correctly") from err
+        except requests.exceptions.HTTPError as err:
+            if err.response.status_code == 400:
+                raise ValueError(
+                    f"Order: {order.externalId} not created with error: {r.json()['errorType']}:{r.json()['message']}"
+                ) from err
+            elif err.response.status_code == 403:
+                raise ValueError(
+                    "Authentication error, check `SpotlerSDK.api_key` and `SpotlerSDK.api_secret` are set correctly"
+                ) from err
+            else:
+                raise
+
+    def update_order(self, order: Order):
+        order_request = OrderRequest(order=order)
+        try:
+            r = self.session.put(
+                self.api_url + f"order/{order.externalId}",
+                headers={"Accept": "application/json", "Content-Type": "application/json"},
+                timeout=HTTP_TIMEOUT_SECONDS,
+                data=order_request.model_dump_json(),
+            )
+
+            r.raise_for_status()
+        except requests.exceptions.ConnectionError as err:
+            raise ValueError("Connection error, check `SpotlerSDK.api_url` is set correctly") from err
+        except requests.exceptions.HTTPError as err:
+            if err.response.status_code == 400:
+                raise ValueError(
+                    f"Order: {order.externalId} not created with error: {r.json()['errorType']}:{r.json()['message']}"
+                ) from err
+            elif err.response.status_code == 403:
+                raise ValueError(
+                    "Authentication error, check `SpotlerSDK.api_key` and `SpotlerSDK.api_secret` are set correctly"
+                ) from err
+            else:
+                raise
+
+    def delete_order(self, order_id: str):
+        try:
+            r = self.session.delete(
+                self.api_url + f"order/{order_id}",
+                headers={"Accept": "application/json", "Content-Type": "application/json"},
+                timeout=HTTP_TIMEOUT_SECONDS,
+            )
+
+            r.raise_for_status()
+        except requests.exceptions.ConnectionError as err:
+            raise ValueError("Connection error, check `SpotlerSDK.api_url` is set correctly") from err
+        except requests.exceptions.HTTPError as err:
+            if err.response.status_code == 403:
+                raise ValueError(
+                    "Authentication error, check `SpotlerSDK.api_key` and `SpotlerSDK.api_secret` are set correctly"
+                ) from err
+            elif err.response.status_code == 404:
+                raise ValueError(f"Order: {order_id} not found with error: {r.json()['errorType']}") from err
             else:
                 raise

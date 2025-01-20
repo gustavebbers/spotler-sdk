@@ -36,3 +36,16 @@ class Contact(BaseModel):
     temporary: bool
     properties: ContactProperties
     channels: list
+
+
+class Order(BaseModel):
+    externalId: str
+    externalContactId: str
+    date: datetime.datetime
+    value: str
+    externalProductIds: list[str]
+
+
+class OrderRequest(BaseModel):
+    update: bool = True
+    order: Order
