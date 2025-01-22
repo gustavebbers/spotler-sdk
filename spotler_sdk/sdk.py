@@ -24,12 +24,14 @@ class SDK:
         )
 
     def get_contact(self, email):
-
         hash = hashlib.sha256(email.encode()).hexdigest()
         try:
             r = self.session.get(
                 self.api_url + f"contact/{hash}",
-                headers={"Accept": "application/json", "Content-Type": "application/json"},
+                headers={
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                },
                 timeout=HTTP_TIMEOUT_SECONDS,
             )
 
@@ -53,7 +55,6 @@ class SDK:
         return Contact(**r.json())
 
     def update_contact_property(self, email: str, key: str, value: str):
-
         hash = hashlib.sha256(email.encode()).hexdigest()
         payload = json.dumps(
             {
@@ -71,7 +72,10 @@ class SDK:
         try:
             r = self.session.put(
                 self.api_url + f"contact/{hash}",
-                headers={"Accept": "application/json", "Content-Type": "application/json"},
+                headers={
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                },
                 timeout=HTTP_TIMEOUT_SECONDS,
                 data=payload,
             )
@@ -98,7 +102,10 @@ class SDK:
         try:
             r = self.session.post(
                 self.api_url + "order",
-                headers={"Accept": "application/json", "Content-Type": "application/json"},
+                headers={
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                },
                 timeout=HTTP_TIMEOUT_SECONDS,
                 data=order_request.model_dump_json(),
             )
@@ -123,7 +130,10 @@ class SDK:
         try:
             r = self.session.put(
                 self.api_url + f"order/{order.externalId}",
-                headers={"Accept": "application/json", "Content-Type": "application/json"},
+                headers={
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                },
                 timeout=HTTP_TIMEOUT_SECONDS,
                 data=order_request.model_dump_json(),
             )
@@ -147,7 +157,10 @@ class SDK:
         try:
             r = self.session.delete(
                 self.api_url + f"order/{order_id}",
-                headers={"Accept": "application/json", "Content-Type": "application/json"},
+                headers={
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                },
                 timeout=HTTP_TIMEOUT_SECONDS,
             )
 
@@ -170,7 +183,10 @@ class SDK:
         try:
             r = self.session.post(
                 self.api_url + "product",
-                headers={"Accept": "application/json", "Content-Type": "application/json"},
+                headers={
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                },
                 timeout=HTTP_TIMEOUT_SECONDS,
                 data=product_request.model_dump_json(),
             )
@@ -196,7 +212,10 @@ class SDK:
         try:
             r = self.session.put(
                 self.api_url + f"product/{product.externalId}",
-                headers={"Accept": "application/json", "Content-Type": "application/json"},
+                headers={
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                },
                 timeout=HTTP_TIMEOUT_SECONDS,
                 data=product_request.model_dump_json(),
             )
@@ -240,11 +259,13 @@ class SDK:
                 raise
 
     def get_product(self, product_id: str):
-
         try:
             r = self.session.get(
                 self.api_url + f"product/{product_id}",
-                headers={"Accept": "application/json", "Content-Type": "application/json"},
+                headers={
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                },
                 timeout=HTTP_TIMEOUT_SECONDS,
             )
 
