@@ -1,5 +1,6 @@
 # Copyright Gustav Ebbers
 import datetime
+from enum import Enum
 
 from pydantic import BaseModel
 
@@ -49,3 +50,46 @@ class Order(BaseModel):
 class OrderRequest(BaseModel):
     update: bool = True
     order: Order
+
+
+class StockEnum(str, Enum):
+    LIMITED = "LIMITED"
+    GOOD = "GOOD"
+    UNKNOWN = "UNKNOWN"
+
+
+class ProductSpecification(BaseModel):
+    description: str
+    value: str
+    rank: str | None = None
+
+
+class Product(BaseModel):
+    externalId: str
+    name: str
+    description: str | None = None
+    link: str | None = None
+    price: str
+    oldPrice: str | None = None
+    imageUrl: str
+    category: str | None = None
+    gtin: str | None = None
+    sku: str | None = None
+    brand: str | None = None
+    ratingImageUrl: str | None = None
+    reviewLink: str | None = None
+    creationDate: datetime.datetime | None = None
+    changeDate: datetime.datetime | None = None
+    addToCartLink: str | None = None
+    imageLargeUrl: str
+    ratingValue: str | None = None
+    language: str | None = None
+    stock: StockEnum = StockEnum.UNKNOWN
+    deleted: bool = False
+    visible: bool = True
+    specifications: list[ProductSpecification] | None = None
+
+
+class ProductRequest(BaseModel):
+    update: bool = True
+    product: Product
