@@ -1,7 +1,6 @@
 # Copyright Gustav Ebbers
 import hashlib
 import json
-from enum import Enum
 
 import requests
 from loguru import logger
