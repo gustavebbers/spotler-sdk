@@ -1,7 +1,7 @@
 # Copyright Gustav Ebbers
 import hashlib
 import json
-import logging
+
 import requests
 from loguru import logger
 from requests_oauthlib import OAuth1Session
