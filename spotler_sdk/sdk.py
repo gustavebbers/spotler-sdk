@@ -1,7 +1,7 @@
 # Copyright Gustav Ebbers
 import hashlib
 import json
-
+import logging
 import requests
 from loguru import logger
 from requests_oauthlib import OAuth1Session
@@ -9,6 +9,10 @@ from requests_oauthlib import OAuth1Session
 from spotler_sdk.models import Contact, Order, OrderRequest, Product, ProductRequest
 
 HTTP_TIMEOUT_SECONDS = 10
+
+
+
+
 
 
 class SDK:
@@ -143,8 +147,7 @@ class SDK:
         except requests.exceptions.HTTPError as err:
             if err.response.status_code == 400:
                 raise ValueError(
-                    f"Order: {order.externalId} not created with error: {r.json()['errorType']}:{r.json()['message']}"
-                ) from err
+                    f"Order: {order.externalId} not created with error: {r.json()['errorType']}:{r.json()['message']}") from err
             elif err.response.status_code == 403:
                 raise ValueError(
                     "Authentication error, check `SpotlerSDK.api_key` and `SpotlerSDK.api_secret` are set correctly"
