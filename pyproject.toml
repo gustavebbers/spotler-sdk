@@ -8,7 +8,7 @@ authors = ["Gustav Ebbers <gueb01@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.12"
 loguru = "^0.7.3"
-pydantic = "^2.10.5"
+pydantic = "^2.10.6"
 requests-oauthlib = "^2.0.0"
 
 [tool.poetry.dev-dependencies]
